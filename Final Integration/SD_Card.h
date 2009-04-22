@@ -7,12 +7,13 @@
 #include <hidef.h>
 #include "MC9S08QE128.h"
 #include "derivative.h"
+#include "ADC.h"
 
 
 /* Memory card sector size */
 #define SECTOR_SIZE 512
 extern unsigned long sectorZero;
-
+extern unsigned char dataBuffer[512];
 /**
  * MMC/SD card SPI mode commands
  **/
@@ -103,5 +104,10 @@ volatile byte Save_Data(volatile byte A,
                         volatile byte E, 
                         volatile byte F);
                         
+void storeData(unsigned char *bufferPtr, int sectorNumber,int bytesLeftInSector,int numOfBytesToWrite);
+void uploadData(unsigned char *bufferPtr,int sectorNumber,int bytesLeftInSector);
+void sendCurrentData(void);
+void SDCard_Init(void);
+
                             
                     

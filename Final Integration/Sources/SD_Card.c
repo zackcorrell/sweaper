@@ -583,7 +583,76 @@ unsigned int writePartialMultiSector(unsigned long sector1,
 	spi_get();
 	return countWrote;
 }
+ void storeData(unsigned char *bufferPtr, int sectorNumber,int bytesLeftInSector,int numOfBytesToWrite)
+{
+ 
+ int i = 0;
+ unsigned char dataBuffer[512];
+ if(numOfBytesToWrite==0)
+    return;
+ 
+ if(bytesLeftInSector<=0)
+ {
+    SDCard_Init();
+    writeSector(sectorNumber,bufferPtr);
+    sectorNumber = sectorNumber+1;
+    bytesLeftInSector = 512;
+ } 
+ for(i=0;i<numOfBytesToWrite;i++)
+ {
+   dataBuffer[512-bytesLeftInSector++] = ADCData[i];
+ }
+}
+
+void uploadData(unsigned char *bufferPtr,int sectorNumber,int bytesLeftInSector)
+{
+  int h = 0;
+  int i = 0;
+  int j = 0;
+  int numOfBytesToWrite = 512-bytesLeftInSector;
+  unsigned char readBuffer[512];
+  unsigned char *readBufferPtr;
   
+  readBufferPtr = readBuffer;
+  // fill sector with zeros
+  for(h = 512-bytesLeftInSector;h<512;h++)
+  {
+    dataBuffer[h]=0; 
+  }
+  storeData(bufferPtr, sectorNumber, bytesLeftInSector,numOfBytesToWrite);
+  for(i = 1;i<=sectorNumber;i++)
+  {
+    SDCard_Init();
+    readSector(i,readBufferPtr);
+    for(j = 0;j<512;j++)
+    {
+      putChar(readBuffer[i]);
+    }
+  }
+}
+
+void sendCurrentData()
+{
+ int i = 0;
+ readSensors();
+ for(i = 0;i<6;i++)
+    {
+      putChar(ADCData[i]);
+    }  
+}
+
+void SDCard_Init()
+{
+  if(memCardInit())
+	{
+		if(setBLockLength())
+		{
+			sectorZero = getPartitionOffset();
+		}
+	}
+  
+}
+ 
 /*
 volatile byte Save_Data(volatile byte A,volatile byte B, volatile byte C, volatile byte D, volatile byte E, volatile byte F){
    
