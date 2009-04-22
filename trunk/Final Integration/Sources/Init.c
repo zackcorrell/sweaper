@@ -130,3 +130,86 @@ void SCI_Init (void)
   SCI1BDH = 0x00; // BUSCLK 4MHz
   // Baud rate = -------------------- = ------------ = 9600bps
 } // [SBR12:SBR0] x 16 26 x 16
+void InitSystems(void) 
+{
+  
+  SOPT1  = 0x23;                          // Disable COP,RSTO, enable STOP,BKGD,RESET
+  SOPT2  = 0x00;                          // SPI1 on PTB2/3/4/5, IIC1 on PTA2/3
+  SPMSC1 = 0x00;                          // Disable LVD
+  SPMSC2 = 0x00;                          // Disable power-down modes
+  SPMSC3 = 0x00;                          // Disable LVWIE, low trip points
+  SCGC1  = 0xFF;                          // Enable bus clock to peripherals
+  SCGC2  = 0xFF;
+  SCGC2 = 0x02;                          // Enable bus clock to peripherals
+} // end InitSystems
+
+void EnablePullups(void) 
+{
+  
+  PTAPE = 0xFF;                           // Enable PORT A Internal Pullups
+  PTBPE = 0xFF;                           // Enable PORT B Internal Pullups
+  PTCPE = 0xFF;                           // Enable PORT C Internal Pullups
+  PTDPE = 0xFF;                           // Enable PORT D Internal Pullups
+  PTEPE = 0xFF;                           // Enable PORT E Internal Pullups
+  PTFPE = 0xFF;                           // Enable PORT F Internal Pullups
+  PTGPE = 0x0F;                           // Enable PTG0/1/2/3 Internal Pullups
+  PTHPE = 0xC3;                           // Enable PTH0/1/6/7 Internal Pullups
+} //end EnablePullups
+
+void GPIO_Init(void) 
+{
+  
+  //PTEDD |= 0xCB; // Configure PTE port as output
+  //PTED |= 0xCB; // Put 0's in PTE port
+  
+  PTDDD |= 0x03;
+  PTDD_PTDD0 = 1;
+  PTDD_PTDD1 = 1; 
+  
+  PTCDD |= 0xFF; // Configure PTC port as output
+  PTCD |= 0xFF; // Put 0's in PTC port
+  PTADD |= 0x00; // Configure PTA port as input
+  PTAPE = 0xFF;
+  
+}
+
+void RTC_Init (void) 
+{
+  RTCSC = 0x01; // RTCPS configure prescaler period every 8ms
+  RTCMOD = 0x00; // RTCMOD configure to interrupt every 8ms
+}
+
+void SPI_Init (void) 
+{
+  SPI2BR = 0x10;
+  SPI2C1 = 0x50;
+  SPI2C2 = 0x00; // Different pins for data input and data output
+  
+} 
+
+void SDCard_Init()
+{
+  if(memCardInit())
+	{
+		if(setBLockLength())
+		{
+			sectorZero = getPartitionOffset();
+		}
+	}
+  
+}
+
+void initAll(void)
+{
+ Sys_Peripheral_Init();
+ ADC_Init();
+ InitSystems();
+  EnablePullups();
+  GPIO_Init();
+  RTC_Init ();
+  SCI_Init();
+  SPI_Init();
+//  RTC_TICK = FALSE;
+  SDCard_Init(); 
+  
+}

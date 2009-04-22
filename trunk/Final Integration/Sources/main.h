@@ -6,6 +6,7 @@
 #include <hidef.h>
 #include "MC9S08QE128.h"
 #include "target.h"
+#include "init.h"
 
 /******************************************************************************
 Board Specific Defines 

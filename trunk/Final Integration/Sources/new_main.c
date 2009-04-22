@@ -15,7 +15,6 @@
 #define UPLOAD 3;
 #define GETCURRENTDATA 4;
 
-extern unsigned char state = INIT;
 
 /************************
    Main Program Loop
@@ -38,12 +37,12 @@ unsigned char sleeping=0;
 			sectorNumber = 1;
 			bytesLeftInSector = 512;
 			SendMsg("Case: INIT");SendChar(10);SendChar(13);
-			storeData(bufferPtr, sectorNumber, bytesLeftInSector,numOfBytesToWrite);
+			storeData(bufferPtr, sectorNumber, bytesLeftInSector,26);
 			state = COLLECTDATA;
 			break;
 			
 		case SLEEP:
-			if(seconds==0x00)
+			if(Seconds==0x00)
 			{
 				sleeping=0;
 				state = GETCURRENTDATA;
@@ -65,14 +64,14 @@ unsigned char sleeping=0;
 		
 		case COLLECTDATA:
 			SendMsg("case: COLLECTDATA");SendChar(10);SendChar(13);
-			data = readSensors(); // readADC
-			storeData(bufferPtr, sectorNumber, bytesLeftInSector,numOfBytesToWrite)
+			readSensors(); // readADC
+			storeData(bufferPtr, sectorNumber, bytesLeftInSector,6);
 			state = SLEEP;
 			break;
 			
 		case UPLOAD:
 			SendMsg("CASE: UPLOAD");SendChar(10);SendChar(13);
-			uploadData(); // readData, sendData
+			uploadData(bufferPtr,sectorNumber,bytesLeftInSector); // readData, sendData
 			state = INIT;
 			break;
 			
@@ -89,7 +88,8 @@ unsigned char sleeping=0;
 	}
 	
 	
-void interrupt VectorNumber_Vsci1rx SCI_RX_ISR(void) {
+void interrupt VectorNumber_Vsci1rx SCI_RX_ISR(void) 
+{
 // SCI vector address = 15 (S08)
 // SCI vector address = 77 (V1)
 SCI1S1_RDRF = 0; // Receive interrupt disable
