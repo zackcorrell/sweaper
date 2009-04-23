@@ -15,6 +15,10 @@
 
 /************************* Macros ********************************************/
 
+#include "derivative.H" /* include peripheral declarations */
+#include "target.h"
+#include "MC9S08QE128.h"
+
 #define _CR PutChar(\r)
 #define _LF PutChar(\n)
 #define NEW_LINE DisplayString("\r\n")

@@ -60,10 +60,6 @@ void Sys_Peripheral_Init(void){
   // To turn on coms port on board
   PTGD_PTGD0 = 1;         
   
-  //Turn off all LEDs
-  PTCD = 0x3F;
-  PTED = 0xC0;
-  
   // Initialise RTC
   RTCSC = 0b00110110;
   /*        ||||||||
@@ -72,12 +68,6 @@ void Sys_Peripheral_Init(void){
             |++--------Ext osc selected as Clock Source
             +----------Flag  Bit */                      
   RTCMOD = 0x04;       // modulo of 4 sets RTC period to 5 secs
-   
-  //Initialize SCI
-  SCI_Config(SCIBD_BAUD_RATE);
-
-  //Initialize KBI
-  InitKBI();
 
   //Initialize IRQ
   IRQSC = 0x14;
@@ -110,10 +100,10 @@ void SCI_Init (void)
   SCI1C1 = 0x00; // 8-bit mode. Normal operation
   SCI1C2 = 0x2C; // Receiver interrupt enabled. Transmitter and receiver enabled
   SCI1C3 = 0x00; // Disable all errors interrupts
-  SCI1BDL = 0x1A; // This register and the SCI1BDH are used to configure the SCI baud rate
-  SCI1BDH = 0x00; // BUSCLK 4MHz
-  // Baud rate = -------------------- = ------------ = 9600bps
-} // [SBR12:SBR0] x 16 26 x 16
+  SCI1BDL = 0x0B; // This register and the SCI1BDH are used to configure the SCI baud rate
+  SCI1BDH = 0x00; // BUSCLK 20MHz
+  // Baud rate = -------------------- = ------------ = 115200bps
+} // 20/(11 x 16)
 void InitSystems(void) 
 {
   
@@ -157,12 +147,6 @@ void GPIO_Init(void)
   
 }
 
-void RTC_Init (void) 
-{
-  RTCSC = 0x01; // RTCPS configure prescaler period every 8ms
-  RTCMOD = 0x00; // RTCMOD configure to interrupt every 8ms
-}
-
 void SPI_Init (void) 
 {
   SPI2BR = 0x10;
@@ -188,12 +172,9 @@ void initAll(void)
  Sys_Peripheral_Init();
  ADC_Init();
  InitSystems();
-  EnablePullups();
-  GPIO_Init();
-  RTC_Init ();
-  SCI_Init();
-  SPI_Init();
-//  RTC_TICK = FALSE;
-  SDCard_Init(); 
-  
+ EnablePullups();
+ GPIO_Init();
+ SCI_Init();
+ SPI_Init();
+ SDCard_Init();  
 }

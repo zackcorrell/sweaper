@@ -11,9 +11,9 @@
 ******************************************************************************/		
 
 /* include files */
-#include "derivative.h" /* include peripheral declarations */
+
 #include "ICS.h"      
-#include "MC9S08QE128.h"
+
 
 /******************************************************************************
 Function Name	:	ICS_Config
