@@ -4,12 +4,7 @@
 ////////////        16 Apr 09           //////////////
 //////////////////////////////////////////////////////
 
-#include <hidef.h>
-#include "MC9S08QE128.h"
-#include "derivative.h"
 #include "Init.h"
-#include "ICS.h"
-#include "target.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // POR Recovery
@@ -48,7 +43,7 @@ void Sys_Peripheral_Init(void){
   //ADC Init stuff
   SCGC1 = 0x10; // Bus Clock to the ADC module is enabled
   //SCGC2 = 0x00; // Disable Bus clock to unused peripherals 
-      
+ /*     
   // Make all unused pins outputs
   PTADD = 0xF3;            
   PTBDD = 0xFF;           
@@ -61,18 +56,7 @@ void Sys_Peripheral_Init(void){
   PTJDD = 0xFF; 
   
   PTED = 0x00;          
-
-  //  Enable Pull Ups on all pins
-  PTAPE = 0xFF;           
-  PTBPE = 0xFF;
-  PTCPE = 0xFF;
-  PTDPE = 0xFF;
-  PTEPE = 0xFF;
-  PTFPE = 0xFF;
-  PTGPE = 0xFF;
-  PTHPE = 0xFF;
-  PTJPE = 0xFF;
-  
+ */ 
   // To turn on coms port on board
   PTGD_PTGD0 = 1;         
   

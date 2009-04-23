@@ -12,6 +12,8 @@
 #ifndef ICS_H        /*prevent duplicated includes*/
 #define ICS_H
 
+#include "MC9S08QE128.h"
+#include "derivative.h" /* include peripheral declarations */
 /************************* Project Include Files *****************************/
 
 /************************* Variables *****************************/
