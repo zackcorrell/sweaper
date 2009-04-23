@@ -5,8 +5,11 @@
 /////////////////////////////////////////////////////////////
 #ifndef ADC_H
 #define ADC_H
-
-extern void ADC_Init(void);
+               
+#include "derivative.h"
+#include "MC9S08QE128.h"               
+               
+void ADC_Init(void);
 extern void Read_Data(void);
 //interrupt VectorNumber_Vadc ADC_ISR(void);
 

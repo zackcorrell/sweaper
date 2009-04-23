@@ -8,6 +8,7 @@
 #include "MC9S08QE128.h"
 #include "derivative.h"
 #include "ADC.h"
+#include "target.h"
 
 
 /* Memory card sector size */

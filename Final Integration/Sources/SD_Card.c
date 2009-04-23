@@ -4,9 +4,6 @@
 /////         16 Apr 09        /////////
 ////////////////////////////////////////
 
-#include "MC9S08QE128.h"
-#include "derivative.h"
-#include "target.h"
 #include "SD_Card.h"
 
 static void delay(unsigned int d)
@@ -652,70 +649,3 @@ void SDCard_Init()
 	}
   
 }
- 
-/*
-volatile byte Save_Data(volatile byte A,volatile byte B, volatile byte C, volatile byte D, volatile byte E, volatile byte F){
-   
-   
-   
-   unsigned char realData[512];
-   int i=0;
-   unsigned char *startData;
-   int numOfBlocksWrote = 0;
-*/
-   /*
-   SendChar(10);SendChar(13);
-   SendMsg("Program started");SendChar(10);SendChar(13); 
-   */
-/*     
-   if(memCardInit())
-	 {
-		  if(setBLockLength())
-		   {
-			   sectorZero = getPartitionOffset();
-	     }
-	 }
-
-   for(i=0;i<511;i++)
-   {
-     realData[i] = 0x33;
-   }
-   	
-  
-   for(i=0;i<511;i++)
-   {
-   //   SendChar(realData[i]);   
-   }
-
-*/
-/*
-   SendChar(10);SendChar(13);SendChar(10);SendChar(13);
-   SendMsg("before transmitData = real Data");SendChar(10);SendChar(13);
-*/
-/*  
-   startData = realData;       
-//   SendMsg("transmit data = real data");SendChar(10);SendChar(13);
-   writeSector(1,startData);
-  
-//   SendMsg("data written");SendChar(10);SendChar(13); 
-  
-   for(i=0;i<511;i++)
-   {
-     realData[i] = 0x35;
-     
-   }
-  
-   readSector(1,startData);
-//   SendMsg("read partial sector");SendChar(10);SendChar(13);
-
-   
-   for(i=0;i<511;i++)
-   {
-//      SendChar(realData[i]);
-     
-   }
-//   SendChar(10);SendChar(13);
-
-
-}
-*/
