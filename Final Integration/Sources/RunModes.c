@@ -2,11 +2,6 @@
 //////    RunModes.c /////////////////////////
 //////////////////////////////////////////////
 
-#include "derivative.h" /* include peripheral declarations */
-#include "ICS.h"
-#include "target.h"    
-#include "sci_drv.h"
-#include "MC9S08QE128.h"
 #include "RunModes.h"
 
 void NormalRun(void){

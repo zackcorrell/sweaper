@@ -1,5 +1,3 @@
-#include <hidef.h> /* for EnableInterrupts macro */
-#include "derivative.h" /* include peripheral declarations */
 #include "SCI.h" /* include main program defines and declarations */
 
 

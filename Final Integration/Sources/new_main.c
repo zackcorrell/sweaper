@@ -16,6 +16,8 @@
 #define GETCURRENTDATA 4;
 
 
+//#pragma DATA_SEG __DIRECT_SEG DATA_BUFFER
+//#pragma DATA_SEG DEFAULT 
 /************************
    Main Program Loop
 ************************/

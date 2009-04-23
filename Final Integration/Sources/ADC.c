@@ -1,7 +1,4 @@
-#include "derivative.h"
-#include "MC9S08QE128.h"
 #include "ADC.h"
-#include "sci_drv.h"
 
 volatile byte TempU,SolarUa, SolarUb=0x00;
 volatile byte TempL,SolarLa,SolarLb=0x00;
