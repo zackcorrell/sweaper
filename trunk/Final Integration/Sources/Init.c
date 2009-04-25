@@ -176,5 +176,5 @@ void initAll(void)
  GPIO_Init();
  SCI_Init();
  SPI_Init();
- SDCard_Init();  
+ SDCard_Init(); 
 }
