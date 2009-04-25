@@ -22,9 +22,9 @@ volatile byte Clk_Gate_Flag=0;
 extern void InitKBI(void);
 
 #define INIT 0;
-#define SLEEP 1;
-#define COLLECTDATA 2;
-#define UPLOAD 3;
-#define GETCURRENTDATA 4;
-
-extern unsigned char state = INIT;
+#define WAIT 1;
+#define SLEEP 2;
+#define COLLECTDATA 3;
+#define UPLOAD 4;
+#define GETCURRENTDATA 5;
+extern unsigned char state = WAIT;
