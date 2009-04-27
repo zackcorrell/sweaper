@@ -32,8 +32,8 @@ Entry point: 0x20FB (_Startup)
 _startupData is allocated at 0x2104 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x100     534
-  _Copy    *toCopyDownBeg 0x2AF8
+  _Range   pZeroOut       0x100     1046
+  _Copy    *toCopyDownBeg 0x2B9D
 } _startupData;
 
 *********************************************************************************************
@@ -44,8 +44,8 @@ Section Name                    Size  Type     From       To       Segment
 .init                            132     R     0x2080     0x2103   ROM
 .startData                        18     R     0x2104     0x2115   ROM
 .rodata1                          95     R     0x2116     0x2174   ROM
-.text                           2435     R     0x2175     0x2AF7   ROM
-.copy                              9     R     0x2AF8     0x2B00   ROM
+.text                           2600     R     0x2175     0x2B9C   ROM
+.copy                              9     R     0x2B9D     0x2BA5   ROM
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg0
 .abs_section_1                     1   N/I        0x1        0x1   .absSeg1
 .abs_section_2                     1   N/I        0x2        0x2   .absSeg2
@@ -226,14 +226,14 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_1814                  2   N/I     0x1814     0x1815   .absSeg177
 .abs_section_1816                  2   N/I     0x1816     0x1817   .absSeg178
 .abs_section_1870                  2   N/I     0x1870     0x1871   .absSeg179
-.bss                             527   R/W      0x103      0x311   RAM
-.common                            4   R/W      0x312      0x315   RAM
-.stack                            80   R/W      0x316      0x365   RAM
+.bss                            1039   R/W      0x103      0x511   RAM
+.common                            4   R/W      0x512      0x515   RAM
+.stack                            80   R/W      0x516      0x565   RAM
 .vectSeg180_vect                   2     R     0xFFFE     0xFFFF   .vectSeg180
 
 Summary of section sizes per section type:
-READ_ONLY (R):         A83 (dec:     2691)
-READ_WRITE (R/W):      266 (dec:      614)
+READ_ONLY (R):         B28 (dec:     2856)
+READ_WRITE (R/W):      466 (dec:     1126)
 NO_INIT (N/I):          CF (dec:      207)
 
 *********************************************************************************************
@@ -272,7 +272,7 @@ MODULE:                 -- RTSHC08.C.o (ansiis.lib) --
      _COPY                                     22ED      30      48       1   .text       
      _POP32                                    231D      1A      26       5   .text       
      _SEXT16_32                                2337       D      13       2   .text       
-     _Jump_Table_Header_Offset                 2344      24      36       1   .text       
+     _Jump_Table_Header_Addr                   2344      2F      47       1   .text       
 - VARIABLES:
 MODULE:                 -- MC9S08QE128.C.o --
 - PROCEDURES:
@@ -465,62 +465,62 @@ MODULE:                 -- Start08.c.o --
 - VARIABLES:
      _startupData                              2104       6       6       4   .startData  
 - LABELS:
-     __SEG_END_SSTACK                           366       0       0       1               
+     __SEG_END_SSTACK                           566       0       0       1               
 MODULE:                 -- RunModes.c.o --
 - PROCEDURES:
-     SleepRun                                  2368      25      37       1   .text       
+     SleepRun                                  2373      25      37       1   .text       
 - VARIABLES:
      RamStop                                    100       2       2       1   .data       
 MODULE:                 -- ADC.c.o --
 - PROCEDURES:
-     ADC_Init                                  238D      12      18       1   .text       
-     Read_Data                                 239F      54      84       2   .text       
+     ADC_Init                                  2398      12      18       1   .text       
+     Read_Data                                 23AA      54      84       2   .text       
 - VARIABLES:
      SolarUb                                    103       1       1       2   .bss        
      SolarLb                                    104       1       1       2   .bss        
-     TempU                                      312       1       1       2   .common     
-     SolarUa                                    313       1       1       1   .common     
-     TempL                                      314       1       1       2   .common     
-     SolarLa                                    315       1       1       2   .common     
+     TempU                                      512       1       1       2   .common     
+     SolarUa                                    513       1       1       1   .common     
+     TempL                                      514       1       1       2   .common     
+     SolarLa                                    515       1       1       2   .common     
 MODULE:                 -- SD_Card.c.o --
 - PROCEDURES:
-     spi_put                                   23F3      12      18      13   .text       
-     spi_get                                   2405      15      21      19   .text       
-     sendCommand                               241A      22      34       6   .text       
-     cardResponse                              243C      33      51       8   .text       
-     memCardInit                               246F      71     113       1   .text       
-     setBLockLength                            24E0      2C      44       1   .text       
-     getPartitionOffset                        250C      DE     222       3   .text       
-     checkWriteState                           25EA      45      69       1   .text       
-     readSector                                262F      79     121       1   .text       
-     writeSector                               26A8      7E     126       1   .text       
-     storeData                                 2726      D3     211       6   .text       
-     uploadData                                27F9      DF     223       6   .text       
-     sendCurrentData                           28D8      24      36       1   .text       
-     SDCard_Init                               28FC      13      19       3   .text       
+     spi_put                                   23FE      12      18      13   .text       
+     spi_get                                   2410      15      21      19   .text       
+     sendCommand                               2425      22      34       6   .text       
+     cardResponse                              2447      33      51       8   .text       
+     memCardInit                               247A      71     113       1   .text       
+     setBLockLength                            24EB      2C      44       1   .text       
+     getPartitionOffset                        2517      DE     222       3   .text       
+     checkWriteState                           25F5      45      69       1   .text       
+     readSector                                263A      79     121       1   .text       
+     writeSector                               26B3      7E     126       1   .text       
+     storeData                                 2731      F5     245       6   .text       
+     uploadData                                2826      DF     223       6   .text       
+     sendCurrentData                           2905      24      36       1   .text       
+     SDCard_Init                               2929      13      19       3   .text       
 - VARIABLES:
      sectorZero                                 105       4       4       3   .bss        
      ADCData                                    109       6       6       3   .bss        
      dataBuffer                                 10F     200     512       1   .bss        
 MODULE:                 -- Init.c.o --
 - PROCEDURES:
-     Sys_Peripheral_Init                       290F      36      54       1   .text       
-     SCI_Init                                  2945       D      13       1   .text       
-     InitSystems                               2952      1E      30       1   .text       
-     EnablePullups                             2970      1F      31       1   .text       
-     GPIO_Init                                 298F      19      25       1   .text       
-     SPI_Init                                  29A8       F      15       1   .text       
-     initAll                                   29B7      14      20       1   .text       
+     Sys_Peripheral_Init                       293C      36      54       1   .text       
+     SCI_Init                                  2972       D      13       1   .text       
+     InitSystems                               297F      1E      30       1   .text       
+     EnablePullups                             299D      1F      31       1   .text       
+     GPIO_Init                                 29BC      19      25       1   .text       
+     SPI_Init                                  29D5       F      15       1   .text       
+     initAll                                   29E4      14      20       1   .text       
 - VARIABLES:
 MODULE:                 -- sci.c.o --
 - PROCEDURES:
-     RecChar                                   29CB      12      18       1   .text       
-     SendChar                                  29DD       D      13       3   .text       
-     SendMsg                                   29EA      33      51       1   .text       
+     RecChar                                   29F8      12      18       2   .text       
+     SendChar                                  2A0A       D      13       3   .text       
+     SendMsg                                   2A17      33      51       1   .text       
 - VARIABLES:
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                      2A1D      DB     219       4   .text       
+     main                                      2A4A     153     339      19   .text       
 - VARIABLES:
      STRING.Case..INIT.2                       2116       B      11       1   .rodata1    
      STRING.case..COLLECTDATA.3                2121      12      18       1   .rodata1    
@@ -530,7 +530,8 @@ MODULE:                 -- main.c.o --
      state                                      102       1       1       2   .data       
      RTC_Flag                                   30F       1       1       1   .bss        
      serialData                                 310       1       1       1   .bss        
-     Seconds                                    311       1       1       1   .bss        
+     buffer.1                                   311     200     512       3   .bss        
+     Seconds                                    511       1       1       1   .bss        
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -539,15 +540,15 @@ MODULE STATISTIC
   ICS.c.o                                      0    135      0
   sci_drv.c.o                                  0     12      0
   target.c.o                                   0     38      0
-  RTSHC08.C.o (ansiis.lib)                     0    314      0
+  RTSHC08.C.o (ansiis.lib)                     0    325      0
   MC9S08QE128.C.o                            207      0      0
   Start08.c.o                                  0    132      0
   RunModes.c.o                                 2     37      0
   ADC.c.o                                      6    102      0
-  SD_Card.c.o                                522   1308      0
+  SD_Card.c.o                                522   1342      0
   Init.c.o                                     0    188      0
   sci.c.o                                      0     82      0
-  main.c.o                                     4    219     95
+  main.c.o                                   516    339     95
   other                                       80     20      9
 
 *********************************************************************************************
@@ -556,8 +557,8 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 SECTION: ".text"
   ICS_Config PutChar Wait1ms WaitNms _PUSH_ARGS_L _ENTER_UNARY_L 
   _ENTER_BINARY_L _LADD_k_is_k_plus_j _LOR_k_is_k_or_j _LADD _LOR _LLSL _COPY 
-  _POP32 _SEXT16_32 _Jump_Table_Header_Offset SleepRun ADC_Init Read_Data 
-  spi_put spi_get sendCommand cardResponse memCardInit setBLockLength 
+  _POP32 _SEXT16_32 _Jump_Table_Header_Addr SleepRun ADC_Init Read_Data spi_put 
+  spi_get sendCommand cardResponse memCardInit setBLockLength 
   getPartitionOffset checkWriteState readSector writeSector storeData 
   uploadData sendCurrentData SDCard_Init Sys_Peripheral_Init SCI_Init 
   InitSystems EnablePullups GPIO_Init SPI_Init initAll RecChar SendChar SendMsg 
@@ -565,7 +566,8 @@ SECTION: ".text"
 SECTION: ".data"
   RamStop state 
 SECTION: ".bss"
-  SolarUb SolarLb sectorZero ADCData dataBuffer RTC_Flag serialData Seconds 
+  SolarUb SolarLb sectorZero ADCData dataBuffer RTC_Flag serialData buffer.1 
+  Seconds 
 SECTION: ".init"
   loadByte Init _Startup 
 SECTION: ".rodata1"
@@ -1045,11 +1047,12 @@ OBJECT LIST SORTED BY ADDRESS
      dataBuffer                                 10F     200     512       1   .bss        
      RTC_Flag                                   30F       1       1       1   .bss        
      serialData                                 310       1       1       1   .bss        
-     Seconds                                    311       1       1       1   .bss        
-     TempU                                      312       1       1       2   .common     
-     SolarUa                                    313       1       1       1   .common     
-     TempL                                      314       1       1       2   .common     
-     SolarLa                                    315       1       1       2   .common     
+     buffer.1                                   311     200     512       3   .bss        
+     Seconds                                    511       1       1       1   .bss        
+     TempU                                      512       1       1       2   .common     
+     SolarUa                                    513       1       1       1   .common     
+     TempL                                      514       1       1       2   .common     
+     SolarLa                                    515       1       1       2   .common     
      _SRS                                      1800       1       1       0   .abs_section_1800
      _SBDFR                                    1801       1       1       0   .abs_section_1801
      _SOPT1                                    1802       1       1       2   .abs_section_1802
@@ -1155,35 +1158,35 @@ OBJECT LIST SORTED BY ADDRESS
      _COPY                                     22ED      30      48       1   .text       
      _POP32                                    231D      1A      26       5   .text       
      _SEXT16_32                                2337       D      13       2   .text       
-     _Jump_Table_Header_Offset                 2344      24      36       1   .text       
-     SleepRun                                  2368      25      37       1   .text       
-     ADC_Init                                  238D      12      18       1   .text       
-     Read_Data                                 239F      54      84       2   .text       
-     spi_put                                   23F3      12      18      13   .text       
-     spi_get                                   2405      15      21      19   .text       
-     sendCommand                               241A      22      34       6   .text       
-     cardResponse                              243C      33      51       8   .text       
-     memCardInit                               246F      71     113       1   .text       
-     setBLockLength                            24E0      2C      44       1   .text       
-     getPartitionOffset                        250C      DE     222       3   .text       
-     checkWriteState                           25EA      45      69       1   .text       
-     readSector                                262F      79     121       1   .text       
-     writeSector                               26A8      7E     126       1   .text       
-     storeData                                 2726      D3     211       6   .text       
-     uploadData                                27F9      DF     223       6   .text       
-     sendCurrentData                           28D8      24      36       1   .text       
-     SDCard_Init                               28FC      13      19       3   .text       
-     Sys_Peripheral_Init                       290F      36      54       1   .text       
-     SCI_Init                                  2945       D      13       1   .text       
-     InitSystems                               2952      1E      30       1   .text       
-     EnablePullups                             2970      1F      31       1   .text       
-     GPIO_Init                                 298F      19      25       1   .text       
-     SPI_Init                                  29A8       F      15       1   .text       
-     initAll                                   29B7      14      20       1   .text       
-     RecChar                                   29CB      12      18       1   .text       
-     SendChar                                  29DD       D      13       3   .text       
-     SendMsg                                   29EA      33      51       1   .text       
-     main                                      2A1D      DB     219       4   .text       
+     _Jump_Table_Header_Addr                   2344      2F      47       1   .text       
+     SleepRun                                  2373      25      37       1   .text       
+     ADC_Init                                  2398      12      18       1   .text       
+     Read_Data                                 23AA      54      84       2   .text       
+     spi_put                                   23FE      12      18      13   .text       
+     spi_get                                   2410      15      21      19   .text       
+     sendCommand                               2425      22      34       6   .text       
+     cardResponse                              2447      33      51       8   .text       
+     memCardInit                               247A      71     113       1   .text       
+     setBLockLength                            24EB      2C      44       1   .text       
+     getPartitionOffset                        2517      DE     222       3   .text       
+     checkWriteState                           25F5      45      69       1   .text       
+     readSector                                263A      79     121       1   .text       
+     writeSector                               26B3      7E     126       1   .text       
+     storeData                                 2731      F5     245       6   .text       
+     uploadData                                2826      DF     223       6   .text       
+     sendCurrentData                           2905      24      36       1   .text       
+     SDCard_Init                               2929      13      19       3   .text       
+     Sys_Peripheral_Init                       293C      36      54       1   .text       
+     SCI_Init                                  2972       D      13       1   .text       
+     InitSystems                               297F      1E      30       1   .text       
+     EnablePullups                             299D      1F      31       1   .text       
+     GPIO_Init                                 29BC      19      25       1   .text       
+     SPI_Init                                  29D5       F      15       1   .text       
+     initAll                                   29E4      14      20       1   .text       
+     RecChar                                   29F8      12      18       2   .text       
+     SendChar                                  2A0A       D      13       3   .text       
+     SendMsg                                   2A17      33      51       1   .text       
+     main                                      2A4A     153     339      19   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -1206,7 +1209,7 @@ RTSHC08.C.o (ansiis.lib):
   _LDIVU_RC _LMODS _LMODS_LC _LMODS_RC _LMODU _LMODU_LC _LMODU_RC _LASR _LLSR 
   _LCMP _LCMP_RC _CMP24 _CMP24_RC _COPY_L _POP64 _STORE32 _STORE64 _SEXT8_32 
   _CALL_STAR08 _CALL_STAR08_FAR _Jump_Table_Addr _Jump_Table_Offset 
-  _Jump_Table_Header_Addr _Search_Table_16_Addr _Search_Table_16_Offset 
+  _Jump_Table_Header_Offset _Search_Table_16_Addr _Search_Table_16_Offset 
   _Search_Table_8_Addr _Search_Table_8_Offset _PUSH_CC _POP_CC 
   _CONV_FAR_TO_NEAR _CONV_FAR_TO_LINEAR _CONV_LINEAR_TO_FAR 
 RunModes.c.o:
@@ -1228,21 +1231,21 @@ Init.c.o:
 sci.c.o:
   samp MODE n_str 
 main.c.o:
-  FlsStop RamStop samp MODE Clk_Gate_Flag n_str buffer.1 
+  FlsStop RamStop samp MODE Clk_Gate_Flag n_str 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x2AF8 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x2B9D ---- SIZE       4 ---
 Filling bytes inserted
  00030100
-------- ROM-ADDRESS: 0x2AFC ---- RAM-ADDRESS: 0x100 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x2BA1 ---- RAM-ADDRESS: 0x100 ---- SIZE       2 ---
 Name of initialized Object : RamStop
  8E81
-------- ROM-ADDRESS: 0x2AFE ---- RAM-ADDRESS: 0x102 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x2BA3 ---- RAM-ADDRESS: 0x102 ---- SIZE       1 ---
 Name of initialized Object : state
  01
-------- ROM-ADDRESS: 0x2AFF ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x2BA4 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1296,11 +1299,12 @@ initAll                   USES Sys_Peripheral_Init ADC_Init InitSystems
 RecChar                   USES _SCI1S1 _SCI1D _SCI1C2 SendChar 
 SendChar                  USES _SCI1C2 _SCI1S1 _SCI1D 
 SendMsg                   USES _SCI1C2 _SCI1S1 _SCI1D 
-main                      USES initAll state main _Jump_Table_Header_Offset 
-                                RecChar serialData STRING.Case..INIT.2 storeData 
-                                Seconds SleepRun STRING.case..COLLECTDATA.3 Read_Data 
+main                      USES initAll main state _Jump_Table_Header_Addr 
+                                buffer.1 RecChar STRING.Case..INIT.2 storeData Seconds 
+                                SleepRun STRING.case..COLLECTDATA.3 Read_Data 
                                 STRING.CASE..UPLOAD.4 uploadData STRING.CASE..GETCURRENTDATA.5 
                                 sendCurrentData STRING.before.transmitData..6 SendMsg SendChar 
+                                serialData 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1379,7 +1383,7 @@ DEPENDENCY TREE
  |  |        |       
  |  |        +- _COPY               
  |  |             
- |  +- _Jump_Table_Header_Offset
+ |  +- _Jump_Table_Header_Addr
  |  |    
  |  +- RecChar             
  |  |  | 
@@ -1465,6 +1469,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 2691
+Number of blocks to be downloaded: 4
+Total size of all blocks to be downloaded: 2856
 
