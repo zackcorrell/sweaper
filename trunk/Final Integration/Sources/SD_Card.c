@@ -599,6 +599,7 @@ unsigned int writePartialMultiSector(unsigned long sector1,
  {
    dataBuffer[512-bytesLeftInSector++] = ADCData[i];
  }
+ dataBuffer[512-bytesLeftInSector++] = 0x00;
 }
 
 void uploadData(unsigned char *bufferPtr,int sectorNumber,int bytesLeftInSector)
@@ -623,7 +624,7 @@ void uploadData(unsigned char *bufferPtr,int sectorNumber,int bytesLeftInSector)
     readSector(i,readBufferPtr);
     for(j = 0;j<512;j++)
     {
-      putChar(readBuffer[i]);
+      PutChar(readBuffer[i]);
     }
   }
 }
@@ -631,10 +632,10 @@ void uploadData(unsigned char *bufferPtr,int sectorNumber,int bytesLeftInSector)
 void sendCurrentData()
 {
  int i = 0;
- readSensors();
+ Read_Data();
  for(i = 0;i<6;i++)
     {
-      putChar(ADCData[i]);
+      PutChar(ADCData[i]);
     }  
 }
 

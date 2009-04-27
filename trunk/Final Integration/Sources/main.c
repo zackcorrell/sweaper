@@ -1,162 +1,232 @@
-/* Written Using CodeWarrior 6.0 ALPHA2 */
-
-/******************************************************************************		
-*                                                                                   	
-*       Copyright (C) 2006 Freescale Semiconductor, Inc.                            	
-*       All Rights Reserved								              				
-*														              					
-* Filename:       main.c               											
-*														              					
-* Description:	  main routine	        	    	
-*																						     	 		
-******************************************************************************/
-/************************* Project Include Files *****************************/
-
-#include <hidef.h> /* for EnableInterrupts macro */
-#include "derivative.h" /* include peripheral declarations */
-#include "ICS.h"
-#include "target.h"    
-#include "sci_drv.h"
-#include "MC9S08QE128.h"
-#include "RunModes.h"
-#include "ADC.h"
-#include "SD_Card.h"
-#include "Init.h"
-
-/******************************************************************************
-Board Specific Defines 
-******************************************************************************/
-#define BDM_ENABLE 1
-#define EXTERNAL_CRYSTAL_AVAILABLE 1
-
-const unsigned char FlsStop[0x02] = { 0x8E, 0x81};
-
-volatile byte RTC_Flag=0; 
-volatile byte Clk_Gate_Flag=0;
-
-extern void InitKBI(void);
-
-/*******************************************************************************
-MAIN FUNCTION
-*******************************************************************************/
-void main(void) {
-  
-  unsigned char Need_Data=TRUE;
-  //volatile byte Unitialized_RAM[15];  
-  Sys_Peripheral_Init();
-  ADC_Init();
-  ADCSC1_AIEN = 1; // Enable ADC interrupt
-  
-    
-  //test recovery from stop mode
-  /*
-  if(!SPMSC2_PPDF)             // if not recovering from stop: 
-     POR_Boot();               // Print Initial Message                   
-  else{
-     PTCD    = Unitialized_RAM[0];         // restore led states
-     Seconds = Unitialized_RAM[1];
-     Minutes = Unitialized_RAM[2];
-     Hours   = Unitialized_RAM[3];
-     Stop2Recovery();          // if recoverying from stop2
-  }
-  */
-
-  EnableInterrupts;
-    
-  for (;;){
-    if(Clk_Gate_Flag){
-                                        // Disable Clocks to unused peripherals
-      SCGC1 = SCGC1_SCI1_MASK;  
-      SCGC2 = SCGC2_RTC_MASK|SCGC2_KBI_MASK|SCGC2_IRQ_MASK;
-      
-    }else{
-                                        // Enable Clocks to all unused peripherals
-      SCGC1 = 0xFF;  
-      SCGC2 = 0xFF;
-    }
-
-    if(Seconds==0x00||Seconds==0x0F||Seconds==0x1E||Seconds==0x2D){
-       
-       NormalRun();
-       
-    
-       if(Need_Data){
-       Read_Data();
-              
-       /*
-       DisplayString("Solar Bytes (Upper then lower)");DisplayString("\r\n");
-       DisplayByte(SolarU);DisplayString(":");DisplayByte(SolarL);DisplayString("\r\n");
-       
-       DisplayString("Temperature Bytes (Upper then lower)");DisplayString("\r\n");
-       DisplayByte(TempU);DisplayString(":");DisplayByte(TempL);DisplayString("\r\n");                 
-       
-       DisplayString("....display complete.");DisplayString("\r\n");
-       DisplayString("\r\n");
-       }
-       */
-       
-       Need_Data = FALSE;   
-
-    }else{
-    
-       SleepRun();
-       Need_Data=TRUE;
-    
-    }
-    
-    
-  }   
- }   
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// RTC Interrupt
-// --------------------------------------------------------------------------------------
-/////////////////////////////////////////////////////////////////////////////////////////
-interrupt VectorNumber_Vrtc void _RTCISR(void)
-{
-    RTC_Flag = 0xFF;
-    RTCSC_RTIF = 1;       // Clear Flag
-    Seconds+=0x05;        // increment seconds
-    if(Seconds>0x3B){
-      Seconds = 0;
-      Minutes++;
-      if(Minutes>0x3B){
-        Minutes = 0;
-        Hours++;
-      }
-    }
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// IRQ Interrupt
-// --------------------------------------------------------------------------------------
-/////////////////////////////////////////////////////////////////////////////////////////
-interrupt VectorNumber_Virq void _IRQISR( void )
-{
-    word i;
-    Clk_Gate_Flag = (byte)(!Clk_Gate_Flag);
-    if (mode!=2){
-      for(i=0x1000;i>0;i--){}               // debounce IRQ pin (@20 MHz bus clock)
-    } else {
-      for(i=0x0008;i>0;i--){}               // debounce IRQ pin (@16 kHz bus clock)
-    }
-    
-    IRQSC_IRQACK = 1;       // Clear Flag
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// SCI Interrupt
-// --------------------------------------------------------------------------------------
-/////////////////////////////////////////////////////////////////////////////////////////
 /*
-void interrupt VectorNumber_Vsci1rx SCI_RX_ISR(void) {
-                              // SCI vector address = 15 (S08)
-                              // SCI vector address = 77 (V1)
-unsigned char temp;
-SCI1S1_RDRF = 0;              // Receive interrupt disable
-temp = SCI1D;                 // Store the recieve value on temp variable
-while (SCI1S1_TDRE == 0);     // Wait for the transmitter to be empty
-SCI1D = '1';                  // Send a character by SCI
-}
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+************************************************************************************     
 */
+
+#include "main.h"
+
+//#pragma DATA_SEG __DIRECT_SEG DATA_BUFFER
+//#pragma DATA_SEG DEFAULT 
+/************************
+   Main Program Loop
+************************/
+void main() 
+{
+int sectorNumber;
+int bytesLeftInSector;
+static unsigned char buffer[512];
+unsigned char *bufferPtr;
+unsigned char sleeping=0;
+int index = 0;
+
+	initAll(); // set state flag to WAIT after initializing all modules etc.
+	
+	for(;;)
+	{	
+		switch(state)
+		{	
+		  case WAIT:
+		     serialData = RecChar();
+		     if(serialData =='U')
+		      state = UPLOAD;
+		     else if(serialData =='O')
+		      state = INIT;
+		     else if(serialData =='G')
+		      state = GETCURRENTDATA;
+		     break;
+		     
+		  case INIT:
+
+		    bufferPtr = buffer;
+		    for(index=0;index<26;index++)
+		    {
+		      buffer[index] = RecChar();
+		    }
+			  sectorNumber = 1;
+			  bytesLeftInSector = 512;
+			  SendMsg("Case: INIT");SendChar(10);SendChar(13);
+			  storeData(bufferPtr, sectorNumber, bytesLeftInSector,26);
+			  for(index = 0;index<6;index++)
+			  {
+			    buffer[512-bytesLeftInSector++]=0x00;  
+			  }
+			  state = COLLECTDATA;
+			  break;
+			
+		  case SLEEP:
+			  if(Seconds==0x00)
+			  {
+  				sleeping=0;
+  				state = GETCURRENTDATA;
+  				break;
+  			}
+  			else
+  			{
+  				if(sleeping==1)
+  				{
+  					break;
+  				}
+  				else
+  				{
+  					sleeping=1;
+  					SleepRun();
+  				}
+  				break;
+  			}
+  		
+  		case COLLECTDATA:
+  			SendMsg("case: COLLECTDATA");SendChar(10);SendChar(13);
+  			Read_Data(); // readADC
+  			storeData(bufferPtr, sectorNumber, bytesLeftInSector,6);
+  			state = SLEEP;
+  			break;
+  			
+  		case UPLOAD:
+  			SendMsg("CASE: UPLOAD");SendChar(10);SendChar(13);
+  			uploadData(bufferPtr,sectorNumber,bytesLeftInSector); // readData, sendData
+  			state = INIT;
+  			break;
+  			
+  		case GETCURRENTDATA:
+  			SendMsg("CASE: GETCURRENTDATA");SendChar(10);SendChar(13);
+  			sendCurrentData(); // sendData
+  			state = SLEEP;
+  			break;
+  			
+  		default:
+  			SendMsg("before transmitData = real Data");SendChar(10);SendChar(13);
+  			state = INIT;
+  		}
+	}
+}
+	
+
+/*
+////////////////////////////////////////////////////////////////////////////////////
+// SCI #1 TX Interrupt Service Routine
+////////////////////////////////////////////////////////////////////////////////////
+void interrupt VectorNumber_Vsci1tx SCI_TX_ISR(void)
+{
+	unsigned char temp;
+
+	// Check if addtional data to be transmitted
+	if(SCI.TxCnt != 0)
+	{
+		SCI.TxCnt--;
+		temp = SCI1S1;
+		SCI1D = *(SCI.TxBuf); //send out the next byte
+		SCI.TxBuf++;
+	}
+	else
+	{ 
+    // Disable Tx
+    SCI1C2_TE = DISABLE;      
+		// Disable Tx ISR
+		SCI1C2_TIE = DISABLE;
+  }	
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// SCI #1 RX Interrupt Service Routine
+////////////////////////////////////////////////////////////////////////////////////
+void interrupt VectorNumber_Vsci1rx SCI_RX_ISR(void)
+{
+  unsigned char rx_byte;
+
+  if (SCI1S1_RDRF)    // 1st half of RDRF clear procedure
+  {
+    rx_byte = SCI1D;  // 2nd half of RDRF clear procedure
+  }
+  
+  if (rx_byte == 'O') 
+  {
+                                        
+  }else if (rx_byte == 'G')
+  {
+    
+    //Read_Data();
+    VectorNumber_Vsci1tx SCI_TX_ISR();
+    //SCITx(unsigned char *ADCData[], unsigned char len);
+  }else (rx_byte == 'U') 
+  {
+    readPartialSector(unsigned long sector,unsigned int byteOffset,unsigned int bytesToRead,unsigned char *buf); 
+    SCITx(unsigned char *, unsigned char len);
+  } 
+}
+
+/*
+void interrupt VectorNumber_Vsci1rx SCI_RX_ISR(void)
+{
+  unsigned char rx_byte;
+
+  if (SCI1S1_RDRF)    // 1st half of RDRF clear procedure
+    rx_byte = SCI1D;  // 2nd half of RDRF clear procedure
+
+  if ((rx_byte == START_BYTE)&&(!GOT_START_BYTE)) 
+  {
+                                    //GOT_START_BYTE = TRUE; 
+                                    //PACKET_STARTED = FALSE;     
+                                    //NEW_MSG_READY = FALSE;    
+  } 
+  else if ((rx_byte == START_BYTE)&&(GOT_START_BYTE))
+  {
+    GOT_START_BYTE = FALSE;
+    PACKET_STARTED = TRUE;    
+    NEW_MSG_READY = FALSE;    
+  } 
+  else if (PACKET_STARTED) 
+  {
+    GOT_START_BYTE = FALSE;
+    PACKET_STARTED = FALSE;
+    SCI.RxMsg = rx_byte;
+    NEW_MSG_READY = TRUE; 
+  } 
+  else
+  {
+    GOT_START_BYTE = FALSE;
+    PACKET_STARTED = FALSE;
+  }
+}
+
+void interrupt VectorNumber_Vsci1tx SCI_TX_ISR(void)
+{
+	unsigned char temp;
+
+	// Check if addtional data to be transmitted
+	if(SCI.TxCnt != 0)
+	{
+		SCI.TxCnt--;
+		temp = SCI1S1;
+		SCI1D = *(SCI.TxBuf); //send out the next byte
+		SCI.TxBuf++;
+	}
+	else
+	{ 
+    // Disable Tx
+    SCI1C2_TE = DISABLE;      
+		// Disable Tx ISR
+		SCI1C2_TIE = DISABLE;
+  }	
+}
+
+
+void interrupt VectorNumber_Vsci1rx SCI_RX_ISR(void) 
+{
+// SCI vector address = 15 (S08)
+// SCI vector address = 77 (V1)
+SendMsg("entered interrupt");SendChar(10);SendChar(13);
+SCI1S1_RDRF = 0; // Receive interrupt disable
+//PTED = SCI1D; // Display on PTE the received data from SCI
+while (SCI1S1_TDRE == 0); // Wait for the transmitter to be empty
+SCI1D = '1'; // Send a character by SCI
+}
+
+*/
+
+
