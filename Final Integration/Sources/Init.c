@@ -43,20 +43,7 @@ void Sys_Peripheral_Init(void){
   //ADC Init stuff
   SCGC1 = 0x10; // Bus Clock to the ADC module is enabled
   //SCGC2 = 0x00; // Disable Bus clock to unused peripherals 
- /*     
-  // Make all unused pins outputs
-  PTADD = 0xF3;            
-  PTBDD = 0xFF;           
-  PTCDD = 0xFF;           
-  PTDDD = 0xF3;           
-  PTEDD = 0xFF;           
-  PTFDD = 0xFF;           
-  PTGDD = 0xFF;           
-  PTHDD = 0xFF;           
-  PTJDD = 0xFF; 
-  
-  PTED = 0x00;          
- */ 
+ 
   // To turn on coms port on board
   PTGD_PTGD0 = 1;         
   
@@ -103,7 +90,7 @@ void SCI_Init (void)
   SCI1BDL = 0x0B; // This register and the SCI1BDH are used to configure the SCI baud rate
   SCI1BDH = 0x00; // BUSCLK 20MHz
   // Baud rate = -------------------- = ------------ = 115200bps
-} // 20/(11 x 16)
+} // 20e6/(11 x 16)
 void InitSystems(void) 
 {
   
@@ -157,12 +144,14 @@ void SPI_Init (void)
 
 void initAll(void)
 {
+ InitSystems();
+ NormalRun();
  Sys_Peripheral_Init();
  ADC_Init();
- InitSystems();
+
  EnablePullups();
  GPIO_Init();
  SCI_Init();
- SPI_Init();
- SDCard_Init(); 
+ //SPI_Init();
+ //SDCard_Init(); 
 }

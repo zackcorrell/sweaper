@@ -25,10 +25,10 @@ unsigned char sleeping=0;
 int index = 0;
 
 	initAll(); // set state flag to WAIT after initializing all modules etc.
-	
 	for(;;)
 	{	
-		switch(state)
+		SendChar(0x33);
+		/*switch(state)
 		{	
 		  case WAIT:
 		     serialData = RecChar();
@@ -62,17 +62,22 @@ int index = 0;
 			  serialData = RecChar();
 			  if(serialData =='U')
 			  {
+			    NormalRun();
+			    sleeping=0;
 			    state = UPLOAD;
 			    break;
 			  }
 			  else if(serialData =='G')
 			  {
+			    NormalRun();
+			    sleeping=0;
 			    state = GETCURRENTDATA;
 			    break;
 			  }
 			  if(Seconds==0x00)
 			  {
   				sleeping=0;
+  				NormalRun();
   				state = GETCURRENTDATA;
   				break;
   			}
@@ -112,6 +117,6 @@ int index = 0;
   		default:
   			SendMsg("before transmitData = real Data");SendChar(10);SendChar(13);
   			state = INIT;
-  		}
-	}
+  		}*/
+	}  
 }
