@@ -7,6 +7,9 @@
 #include "MC9S08QE128.h"
 #include "target.h"
 #include "init.h"
+#include "RunModes.h"
+#include "ADC.h"
+#include "sci.h"
 
 /******************************************************************************
 Board Specific Defines 
@@ -21,10 +24,13 @@ volatile byte Clk_Gate_Flag=0;
 
 extern void InitKBI(void);
 
-#define INIT 0;
-#define WAIT 1;
-#define SLEEP 2;
-#define COLLECTDATA 3;
-#define UPLOAD 4;
-#define GETCURRENTDATA 5;
+#define INIT 0
+#define WAIT 1
+#define SLEEP 2
+#define COLLECTDATA 3
+#define UPLOAD 4
+#define GETCURRENTDATA 5
 extern unsigned char state = WAIT;
+
+unsigned char serialData = 0x00;
+void initAll(void);

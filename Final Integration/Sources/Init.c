@@ -149,23 +149,11 @@ void GPIO_Init(void)
 
 void SPI_Init (void) 
 {
-  SPI2BR = 0x10;
+  SPI2BR = 0x41;
   SPI2C1 = 0x50;
   SPI2C2 = 0x00; // Different pins for data input and data output
   
 } 
-
-void SDCard_Init()
-{
-  if(memCardInit())
-	{
-		if(setBLockLength())
-		{
-			sectorZero = getPartitionOffset();
-		}
-	}
-  
-}
 
 void initAll(void)
 {
