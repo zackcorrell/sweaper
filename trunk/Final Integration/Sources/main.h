@@ -10,6 +10,7 @@
 #include "RunModes.h"
 #include "ADC.h"
 #include "sci.h"
+#include "SD_Card.h"
 
 /******************************************************************************
 Board Specific Defines 
