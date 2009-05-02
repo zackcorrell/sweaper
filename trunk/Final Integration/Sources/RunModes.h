@@ -1,6 +1,14 @@
-/////////////////////////////////////////
-//////     RunModes.h   /////////////////
-/////////////////////////////////////////
+/*
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+**
+** RunModes.h
+************************************************************************************     
+*/
 
 #ifndef RunModes_H        /*prevent duplicated includes*/
 #define RunModes_H

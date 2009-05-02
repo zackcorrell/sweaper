@@ -1,3 +1,15 @@
+/*
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+**
+** ADC.c
+************************************************************************************     
+*/
+
 #include "ADC.h"
 
 volatile byte TempU,SolarUa, SolarUb=0x00;
@@ -17,26 +29,23 @@ APCTL3 = 0xFF;
 
 void Read_Data(void){
 
-  //DisplayString("Reading...");DisplayString("\r\n");
-  
-        ADCSC1_ADCH=0x00;
-        SolarUa=ADCRH;
+        ADCSC1_ADCH=0x00;            //Select AD input channel to read
+        SolarUa=ADCRH;               //store upper and lower bytes respectively
         SolarLa=ADCRL;
         
-        ADCSC1_ADCH=0x01;
-        SolarUb=ADCRH;
-        SolarLb=ADCRL;
+        ADCSC1_ADCH=0x01;            //Select next input channel....up to 8 input channels
+        SolarUb=ADCRH;               //can be read in this fashion, just initialize the 
+        SolarLb=ADCRL;               //the array below accordingly.
      
         ADCSC1_ADCH=0x02;
         TempU=ADCRH;
         TempL=ADCRL; 
         
-        ADCData[0]=SolarUa;
+        ADCData[0]=SolarUa;          //Store all of new data into a single array
         ADCData[1]=SolarLa;
         ADCData[2]=SolarUb;
         ADCData[3]=SolarLb;
         ADCData[4]=TempU;
         ADCData[5]=TempL;       
     
-  //DisplayString("....A2D complete.");DisplayString("\r\n");
 }

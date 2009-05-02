@@ -1,8 +1,15 @@
-/////////////////////////////////////////////////////////////
-//////////////                            ///////////////////
-//////////////          ADC.h             ///////////////////
-//////////////        21 Apr 09           ///////////////////
-/////////////////////////////////////////////////////////////
+/*
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+**
+** ADC.h
+************************************************************************************     
+*/
+
 #ifndef ADC_H
 #define ADC_H
                
@@ -11,11 +18,9 @@
                
 void ADC_Init(void);
 extern void Read_Data(void);
-//interrupt VectorNumber_Vadc ADC_ISR(void);
 
-//extern volatile byte WindU,WindL;
-extern volatile unsigned char ADCData[6];
+extern volatile unsigned char ADCData[6];                            
 extern volatile byte TempU,TempL,SolarUa,SolarLa,SolarUb,SolarLb;
-//extern volatile byte HumidU,HumidL;
+
 
 #endif /* ADC_H */

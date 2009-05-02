@@ -1,14 +1,14 @@
-/******************************************************************************		
-*                                                                                   	
-*       Copyright (C) 2006 Freescale Semiconductor, Inc.                            	
-*       All Rights Reserved								              				
-*														              					
-* Filename:       SCI_DRV.H               											
-*														              					
-* Description:	  SCI Driver files for MC9S08QE128	        	    	
-*                 based on Specification Rev.   	       						
-*																						  	 		
-******************************************************************************/		
+/*
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+**
+** sci_drv.h
+************************************************************************************     
+*/		
 /******************************************************************************/
 #ifndef SCI_DRV_H        /*prevent duplicated includes*/
 #define SCI_DRV_H

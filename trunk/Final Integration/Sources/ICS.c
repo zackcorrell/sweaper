@@ -1,16 +1,14 @@
-/******************************************************************************		
-*                                                                                   	
-*       Copyright (C) 2006 Freescale Semiconductor, Inc.                            	
-*       All Rights Reserved								              				
-*														              					
-* Filename:       ICS.c               											
-*														              					
-* Description:	  ICS Driver files for MC9S08QE128	        	    	
-*                 based on Specification Rev.   	       						
-*																						     	 		
-******************************************************************************/		
-
-/* include files */
+/*
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+**
+** ICS.c
+************************************************************************************     
+*/
 
 #include "ICS.h"      
 
