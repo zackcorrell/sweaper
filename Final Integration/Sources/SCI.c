@@ -1,3 +1,15 @@
+/*
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+**
+** sci.c
+************************************************************************************     
+*/
+
 #include "SCI.h" /* include main program defines and declarations */
 
 

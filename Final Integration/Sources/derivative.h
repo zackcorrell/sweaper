@@ -1,4 +1,15 @@
 /*
+************************************************************************************
+** SWEAPER
+** Authors: Zachary Correll, David Sternberg, John Burkett
+** EE 403W SP 09
+** Pennsylvania State University
+** Last modified: 4/26/09 
+**
+** derivative.h
+************************************************************************************     
+*/
+/*
  * Note: This file is recreated by the project wizard whenever the MCU is
  *       changed and should not be edited by hand
  */

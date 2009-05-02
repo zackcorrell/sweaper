@@ -5,6 +5,8 @@
 ** EE 403W SP 09
 ** Pennsylvania State University
 ** Last modified: 4/26/09 
+** 
+** Main.c
 ************************************************************************************     
 */
 
@@ -28,7 +30,7 @@ int index = 0;
 	for(;;)
 	{	
 		SendChar(0x33);
-		/*switch(state)
+		switch(state)
 		{	
 		  case WAIT:
 		     serialData = RecChar();
@@ -117,6 +119,6 @@ int index = 0;
   		default:
   			SendMsg("before transmitData = real Data");SendChar(10);SendChar(13);
   			state = INIT;
-  		}*/
+  		}
 	}  
 }
