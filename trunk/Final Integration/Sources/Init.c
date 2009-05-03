@@ -90,11 +90,13 @@ byte bcd;
 
 void SCI_Init (void) 
 {
-  SCI1C1 = 0x00; // 8-bit mode. Normal operation
+ SCI_Config(SCIBD_BAUD_RATE);
+ /* SCI1C1 = 0x00; // 8-bit mode. Normal operation
   SCI1C2 = 0x2C; // Receiver interrupt enabled. Transmitter and receiver enabled
   SCI1C3 = 0x00; // Disable all errors interrupts
   SCI1BDL = 0x0B; // This register and the SCI1BDH are used to configure the SCI baud rate
   SCI1BDH = 0x00; // BUSCLK 20MHz
+  */
   // Baud rate = -------------------- = ------------ = 115200bps
 } // 20e6/(11 x 16)
 void InitSystems(void) 
@@ -150,12 +152,13 @@ void SPI_Init (void)
 
 void initAll(void)
 {
+ Sys_Peripheral_Init();
  InitSystems();
  NormalRun();
- Sys_Peripheral_Init();
+
  ADC_Init();
 
- EnablePullups();
+ //EnablePullups();
  GPIO_Init();
  SCI_Init();
  //SPI_Init();

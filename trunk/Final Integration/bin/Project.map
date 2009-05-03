@@ -13,6 +13,7 @@ Linker      : SmartLinker V-5.0.30 Build 7285, Oct 13 2007
 FILE SECTION
 ---------------------------------------------------------------------------------------------
 ICS.c.o                                 Model: SMALL,         Lang: ANSI-C
+sci_drv.c.o                             Model: SMALL,         Lang: ANSI-C
 target.c.o                              Model: SMALL,         Lang: ANSI-C
 MC9S08QE128.C.o                         Model: SMALL,         Lang: ANSI-C
 Start08.c.o                             Model: SMALL,         Lang: ANSI-C
@@ -30,7 +31,7 @@ _startupData is allocated at 0x2104 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x100     1
-  _Copy    *toCopyDownBeg 0x22B3
+  _Copy    *toCopyDownBeg 0x22A5
 } _startupData;
 
 *********************************************************************************************
@@ -39,8 +40,8 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                            132     R     0x2080     0x2103   ROM
 .startData                        18     R     0x2104     0x2115   ROM
-.text                            413     R     0x2116     0x22B2   ROM
-.copy                              2     R     0x22B3     0x22B4   ROM
+.text                            399     R     0x2116     0x22A4   ROM
+.copy                              2     R     0x22A5     0x22A6   ROM
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg0
 .abs_section_1                     1   N/I        0x1        0x1   .absSeg1
 .abs_section_2                     1   N/I        0x2        0x2   .absSeg2
@@ -226,7 +227,7 @@ Section Name                    Size  Type     From       To       Segment
 .vectSeg180_vect                   2     R     0xFFFE     0xFFFF   .vectSeg180
 
 Summary of section sizes per section type:
-READ_ONLY (R):         237 (dec:      567)
+READ_ONLY (R):         229 (dec:      553)
 READ_WRITE (R/W):       51 (dec:       81)
 NO_INIT (N/I):          CF (dec:      207)
 
@@ -244,10 +245,14 @@ MODULE:                 -- ICS.c.o --
 - PROCEDURES:
      ICS_Config                                2116      87     135       2   .text       
 - VARIABLES:
+MODULE:                 -- sci_drv.c.o --
+- PROCEDURES:
+     SCI_Config                                219D      1B      27       1   .text       
+- VARIABLES:
 MODULE:                 -- target.c.o --
 - PROCEDURES:
-     Wait1ms                                   219D       7       7       1   .text       
-     WaitNms                                   21A4      1F      31       1   .text       
+     Wait1ms                                   21B8       7       7       1   .text       
+     WaitNms                                   21BF      1F      31       2   .text       
 - VARIABLES:
 MODULE:                 -- MC9S08QE128.C.o --
 - PROCEDURES:
@@ -281,10 +286,10 @@ MODULE:                 -- MC9S08QE128.C.o --
      _PTHD                                       1E       1       1       0   .abs_section_1e
      _PTHDD                                      1F       1       1       0   .abs_section_1f
      _SCI1C1                                     22       1       1       1   .abs_section_22
-     _SCI1C2                                     23       1       1       2   .abs_section_23
+     _SCI1C2                                     23       1       1       3   .abs_section_23
      _SCI1S1                                     24       1       1       1   .abs_section_24
      _SCI1S2                                     25       1       1       0   .abs_section_25
-     _SCI1C3                                     26       1       1       1   .abs_section_26
+     _SCI1C3                                     26       1       1       0   .abs_section_26
      _SCI1D                                      27       1       1       1   .abs_section_27
      _SPI1C1                                     28       1       1       0   .abs_section_28
      _SPI1C2                                     29       1       1       0   .abs_section_29
@@ -336,7 +341,7 @@ MODULE:                 -- MC9S08QE128.C.o --
      _SPMSC1                                   1808       1       1       2   .abs_section_1808
      _SPMSC2                                   1809       1       1       3   .abs_section_1809
      _SPMSC3                                   180B       1       1       1   .abs_section_180b
-     _SCGC1                                    180E       1       1       2   .abs_section_180e
+     _SCGC1                                    180E       1       1       3   .abs_section_180e
      _SCGC2                                    180F       1       1       1   .abs_section_180f
      _DBGCAX                                   1818       1       1       0   .abs_section_1818
      _DBGCBX                                   1819       1       1       0   .abs_section_1819
@@ -360,28 +365,28 @@ MODULE:                 -- MC9S08QE128.C.o --
      _SPI2BR                                   183A       1       1       0   .abs_section_183a
      _SPI2S                                    183B       1       1       0   .abs_section_183b
      _SPI2D                                    183D       1       1       0   .abs_section_183d
-     _PTAPE                                    1840       1       1       2   .abs_section_1840
+     _PTAPE                                    1840       1       1       1   .abs_section_1840
      _PTASE                                    1841       1       1       0   .abs_section_1841
      _PTADS                                    1842       1       1       0   .abs_section_1842
-     _PTBPE                                    1844       1       1       1   .abs_section_1844
+     _PTBPE                                    1844       1       1       0   .abs_section_1844
      _PTBSE                                    1845       1       1       0   .abs_section_1845
      _PTBDS                                    1846       1       1       0   .abs_section_1846
-     _PTCPE                                    1848       1       1       1   .abs_section_1848
+     _PTCPE                                    1848       1       1       0   .abs_section_1848
      _PTCSE                                    1849       1       1       0   .abs_section_1849
      _PTCDS                                    184A       1       1       0   .abs_section_184a
-     _PTDPE                                    184C       1       1       1   .abs_section_184c
+     _PTDPE                                    184C       1       1       0   .abs_section_184c
      _PTDSE                                    184D       1       1       0   .abs_section_184d
      _PTDDS                                    184E       1       1       0   .abs_section_184e
-     _PTEPE                                    1850       1       1       1   .abs_section_1850
+     _PTEPE                                    1850       1       1       0   .abs_section_1850
      _PTESE                                    1851       1       1       0   .abs_section_1851
      _PTEDS                                    1852       1       1       0   .abs_section_1852
-     _PTFPE                                    1854       1       1       1   .abs_section_1854
+     _PTFPE                                    1854       1       1       0   .abs_section_1854
      _PTFSE                                    1855       1       1       0   .abs_section_1855
      _PTFDS                                    1856       1       1       0   .abs_section_1856
-     _PTGPE                                    1858       1       1       1   .abs_section_1858
+     _PTGPE                                    1858       1       1       0   .abs_section_1858
      _PTGSE                                    1859       1       1       0   .abs_section_1859
      _PTGDS                                    185A       1       1       0   .abs_section_185a
-     _PTHPE                                    185C       1       1       1   .abs_section_185c
+     _PTHPE                                    185C       1       1       0   .abs_section_185c
      _PTHSE                                    185D       1       1       0   .abs_section_185d
      _PTHDS                                    185E       1       1       0   .abs_section_185e
      _PTJPE                                    1860       1       1       0   .abs_section_1860
@@ -407,7 +412,7 @@ MODULE:                 -- MC9S08QE128.C.o --
      _PTETOG                                   187D       1       1       0   .abs_section_187d
      _ADCR                                       12       2       2       0   .abs_section_12
      _ADCCV                                      14       2       2       0   .abs_section_14
-     _SCI1BD                                     20       2       2       2   .abs_section_20
+     _SCI1BD                                     20       2       2       1   .abs_section_20
      _TPM1CNT                                    41       2       2       0   .abs_section_41
      _TPM1MOD                                    43       2       2       0   .abs_section_43
      _TPM1C0V                                    46       2       2       0   .abs_section_46
@@ -443,28 +448,27 @@ MODULE:                 -- Start08.c.o --
      __SEG_END_SSTACK                           151       0       0       1               
 MODULE:                 -- RunModes.c.o --
 - PROCEDURES:
-     NormalRun                                 21C3      1C      28       1   .text       
+     NormalRun                                 21DE      1C      28       1   .text       
 - VARIABLES:
 MODULE:                 -- ADC.c.o --
 - PROCEDURES:
-     ADC_Init                                  21DF      12      18       1   .text       
+     ADC_Init                                  21FA      12      18       1   .text       
 - VARIABLES:
 MODULE:                 -- Init.c.o --
 - PROCEDURES:
-     Sys_Peripheral_Init                       21F1      36      54       1   .text       
-     SCI_Init                                  2227       D      13       1   .text       
-     InitSystems                               2234      1E      30       1   .text       
-     EnablePullups                             2252      1F      31       1   .text       
-     GPIO_Init                                 2271      19      25       1   .text       
-     initAll                                   228A      12      18       1   .text       
+     Sys_Peripheral_Init                       220C      36      54       1   .text       
+     SCI_Init                                  2242       6       6       1   .text       
+     InitSystems                               2248      1E      30       1   .text       
+     GPIO_Init                                 2266      19      25       1   .text       
+     initAll                                   227F       F      15       1   .text       
 - VARIABLES:
 MODULE:                 -- sci.c.o --
 - PROCEDURES:
-     SendChar                                  229C       D      13       1   .text       
+     SendChar                                  228E       D      13       1   .text       
 - VARIABLES:
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                      22A9       A      10       1   .text       
+     main                                      229B       A      10       1   .text       
 - VARIABLES:
      RTC_Flag                                   100       1       1       1   .bss        
 
@@ -473,12 +477,13 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   ICS.c.o                                      0    135      0
+  sci_drv.c.o                                  0     27      0
   target.c.o                                   0     38      0
   MC9S08QE128.C.o                            207      0      0
   Start08.c.o                                  0    132      0
   RunModes.c.o                                 0     28      0
   ADC.c.o                                      0     18      0
-  Init.c.o                                     0    171      0
+  Init.c.o                                     0    130      0
   sci.c.o                                      0     13      0
   main.c.o                                     1     10      0
   other                                       80     20      2
@@ -487,8 +492,8 @@ MODULE STATISTIC
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  ICS_Config Wait1ms WaitNms NormalRun ADC_Init Sys_Peripheral_Init SCI_Init 
-  InitSystems EnablePullups GPIO_Init initAll SendChar main 
+  ICS_Config SCI_Config Wait1ms WaitNms NormalRun ADC_Init Sys_Peripheral_Init 
+  SCI_Init InitSystems GPIO_Init initAll SendChar main 
 SECTION: ".bss"
   RTC_Flag 
 SECTION: ".init"
@@ -888,12 +893,12 @@ OBJECT LIST SORTED BY ADDRESS
      _PTGDD                                      1D       1       1       0   .abs_section_1d
      _PTHD                                       1E       1       1       0   .abs_section_1e
      _PTHDD                                      1F       1       1       0   .abs_section_1f
-     _SCI1BD                                     20       2       2       2   .abs_section_20
+     _SCI1BD                                     20       2       2       1   .abs_section_20
      _SCI1C1                                     22       1       1       1   .abs_section_22
-     _SCI1C2                                     23       1       1       2   .abs_section_23
+     _SCI1C2                                     23       1       1       3   .abs_section_23
      _SCI1S1                                     24       1       1       1   .abs_section_24
      _SCI1S2                                     25       1       1       0   .abs_section_25
-     _SCI1C3                                     26       1       1       1   .abs_section_26
+     _SCI1C3                                     26       1       1       0   .abs_section_26
      _SCI1D                                      27       1       1       1   .abs_section_27
      _SPI1C1                                     28       1       1       0   .abs_section_28
      _SPI1C2                                     29       1       1       0   .abs_section_29
@@ -965,7 +970,7 @@ OBJECT LIST SORTED BY ADDRESS
      _SPMSC1                                   1808       1       1       2   .abs_section_1808
      _SPMSC2                                   1809       1       1       3   .abs_section_1809
      _SPMSC3                                   180B       1       1       1   .abs_section_180b
-     _SCGC1                                    180E       1       1       2   .abs_section_180e
+     _SCGC1                                    180E       1       1       3   .abs_section_180e
      _SCGC2                                    180F       1       1       1   .abs_section_180f
      _DBGCA                                    1810       2       2       0   .abs_section_1810
      _DBGCB                                    1812       2       2       0   .abs_section_1812
@@ -993,28 +998,28 @@ OBJECT LIST SORTED BY ADDRESS
      _SPI2BR                                   183A       1       1       0   .abs_section_183a
      _SPI2S                                    183B       1       1       0   .abs_section_183b
      _SPI2D                                    183D       1       1       0   .abs_section_183d
-     _PTAPE                                    1840       1       1       2   .abs_section_1840
+     _PTAPE                                    1840       1       1       1   .abs_section_1840
      _PTASE                                    1841       1       1       0   .abs_section_1841
      _PTADS                                    1842       1       1       0   .abs_section_1842
-     _PTBPE                                    1844       1       1       1   .abs_section_1844
+     _PTBPE                                    1844       1       1       0   .abs_section_1844
      _PTBSE                                    1845       1       1       0   .abs_section_1845
      _PTBDS                                    1846       1       1       0   .abs_section_1846
-     _PTCPE                                    1848       1       1       1   .abs_section_1848
+     _PTCPE                                    1848       1       1       0   .abs_section_1848
      _PTCSE                                    1849       1       1       0   .abs_section_1849
      _PTCDS                                    184A       1       1       0   .abs_section_184a
-     _PTDPE                                    184C       1       1       1   .abs_section_184c
+     _PTDPE                                    184C       1       1       0   .abs_section_184c
      _PTDSE                                    184D       1       1       0   .abs_section_184d
      _PTDDS                                    184E       1       1       0   .abs_section_184e
-     _PTEPE                                    1850       1       1       1   .abs_section_1850
+     _PTEPE                                    1850       1       1       0   .abs_section_1850
      _PTESE                                    1851       1       1       0   .abs_section_1851
      _PTEDS                                    1852       1       1       0   .abs_section_1852
-     _PTFPE                                    1854       1       1       1   .abs_section_1854
+     _PTFPE                                    1854       1       1       0   .abs_section_1854
      _PTFSE                                    1855       1       1       0   .abs_section_1855
      _PTFDS                                    1856       1       1       0   .abs_section_1856
-     _PTGPE                                    1858       1       1       1   .abs_section_1858
+     _PTGPE                                    1858       1       1       0   .abs_section_1858
      _PTGSE                                    1859       1       1       0   .abs_section_1859
      _PTGDS                                    185A       1       1       0   .abs_section_185a
-     _PTHPE                                    185C       1       1       1   .abs_section_185c
+     _PTHPE                                    185C       1       1       0   .abs_section_185c
      _PTHSE                                    185D       1       1       0   .abs_section_185d
      _PTHDS                                    185E       1       1       0   .abs_section_185e
      _PTJPE                                    1860       1       1       0   .abs_section_1860
@@ -1043,29 +1048,32 @@ OBJECT LIST SORTED BY ADDRESS
      Init                                      208E      6D     109       1   .init       
      _Startup                                  20FB       9       9       0   .init       
      ICS_Config                                2116      87     135       2   .text       
-     Wait1ms                                   219D       7       7       1   .text       
-     WaitNms                                   21A4      1F      31       1   .text       
-     NormalRun                                 21C3      1C      28       1   .text       
-     ADC_Init                                  21DF      12      18       1   .text       
-     Sys_Peripheral_Init                       21F1      36      54       1   .text       
-     SCI_Init                                  2227       D      13       1   .text       
-     InitSystems                               2234      1E      30       1   .text       
-     EnablePullups                             2252      1F      31       1   .text       
-     GPIO_Init                                 2271      19      25       1   .text       
-     initAll                                   228A      12      18       1   .text       
-     SendChar                                  229C       D      13       1   .text       
-     main                                      22A9       A      10       1   .text       
+     SCI_Config                                219D      1B      27       1   .text       
+     Wait1ms                                   21B8       7       7       1   .text       
+     WaitNms                                   21BF      1F      31       2   .text       
+     NormalRun                                 21DE      1C      28       1   .text       
+     ADC_Init                                  21FA      12      18       1   .text       
+     Sys_Peripheral_Init                       220C      36      54       1   .text       
+     SCI_Init                                  2242       6       6       1   .text       
+     InitSystems                               2248      1E      30       1   .text       
+     GPIO_Init                                 2266      19      25       1   .text       
+     initAll                                   227F       F      15       1   .text       
+     SendChar                                  228E       D      13       1   .text       
+     main                                      229B       A      10       1   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
+sci_drv.c.o:
+  SCI_Off DisplayString DisplayByte PutChar GetChar convertASCII DisplayInt 
+  DisplayLong 
 RunModes.c.o:
   SleepRun 
 ADC.c.o:
   Read_Data 
 Init.c.o:
-  POR_Boot hex2bcd SPI_Init 
+  POR_Boot hex2bcd EnablePullups SPI_Init 
 sci.c.o:
   RecChar SendMsg byte2asc word2asc 
 NOT USED VARIABLES
@@ -1085,7 +1093,7 @@ main.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x22B3 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x22A5 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1095,19 +1103,18 @@ OBJECT-DEPENDENCIES SECTION
 Init                      USES _startupData loadByte 
 _Startup                  USES __SEG_END_SSTACK Init main 
 ICS_Config                USES _ICSC1 _ICSC2 _ICSTRM _ICSSC 
+SCI_Config                USES _SCGC1 WaitNms _SCI1BD _SCI1C1 _SCI1C2 
 WaitNms                   USES Wait1ms 
 NormalRun                 USES RTC_Flag ICS_Config WaitNms _SPMSC2 
 ADC_Init                  USES _ADCSC1 _ADCSC2 _ADCCFG _APCTL1 _APCTL2 _APCTL3 
 Sys_Peripheral_Init       USES _SOPT1 _SPMSC1 _SPMSC2 ICS_Config _SCGC1 _PTGD 
                                 _RTCSC _RTCMOD _IRQSC 
-SCI_Init                  USES _SCI1C1 _SCI1C2 _SCI1C3 _SCI1BD 
+SCI_Init                  USES SCI_Config 
 InitSystems               USES _SOPT1 _SOPT2 _SPMSC1 _SPMSC2 _SPMSC3 _SCGC1 
                                 _SCGC2 
-EnablePullups             USES _PTAPE _PTBPE _PTCPE _PTDPE _PTEPE _PTFPE 
-                                _PTGPE _PTHPE 
 GPIO_Init                 USES _PTDDD _PTDD _PTCDD _PTCD _PTADD _PTAPE 
-initAll                   USES InitSystems NormalRun Sys_Peripheral_Init 
-                                ADC_Init EnablePullups GPIO_Init SCI_Init 
+initAll                   USES Sys_Peripheral_Init InitSystems NormalRun 
+                                ADC_Init GPIO_Init SCI_Init 
 SendChar                  USES _SCI1C2 _SCI1S1 _SCI1D 
 main                      USES initAll SendChar 
 
@@ -1120,28 +1127,30 @@ DEPENDENCY TREE
  |  | 
  |  +- initAll             
  |  |  | 
+ |  |  +- Sys_Peripheral_Init 
+ |  |  |  | 
+ |  |  |  +- ICS_Config          
+ |  |  |       
  |  |  +- InitSystems         
  |  |  |    
  |  |  +- NormalRun           
  |  |  |  | 
- |  |  |  +- ICS_Config          
- |  |  |  |    
+ |  |  |  +- ICS_Config           (see above)
+ |  |  |  |  
  |  |  |  +- WaitNms             
  |  |  |     | 
  |  |  |     +- Wait1ms             
  |  |  |          
- |  |  +- Sys_Peripheral_Init 
- |  |  |  | 
- |  |  |  +- ICS_Config           (see above)
- |  |  |     
  |  |  +- ADC_Init            
- |  |  |    
- |  |  +- EnablePullups       
  |  |  |    
  |  |  +- GPIO_Init           
  |  |  |    
  |  |  +- SCI_Init            
- |  |       
+ |  |     | 
+ |  |     +- SCI_Config          
+ |  |        | 
+ |  |        +- WaitNms              (see above)
+ |  |           
  |  +- SendChar            
  |       
  +- _Startup            
@@ -1159,5 +1168,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 4
-Total size of all blocks to be downloaded: 567
+Total size of all blocks to be downloaded: 553
 

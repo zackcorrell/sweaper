@@ -17,6 +17,8 @@
 #include "ICS.h"
 #include "target.h"
 #include <hidef.h>
+#include "sci_drv.h"
+#include "RunModes.h"
 
 byte PortSense(byte Current);
 void Sys_Peripheral_Init(void);
